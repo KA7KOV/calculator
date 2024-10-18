@@ -7,3 +7,4 @@ scripts
 config
 public
 build
+cypress

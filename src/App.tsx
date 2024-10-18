@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { calculate } from './calculate'
 import './App.css'
 import { Screen } from './Screen'
@@ -8,6 +8,13 @@ export const App = () => {
   const [result, setResult] = useState('0')
   const [expression, setExpression] = useState('')
   const [calculationDone, setCalculationDone] = useState(false)
+  const ref = useRef<HTMLInputElement>(null)
+
+  const setFocus = () => {
+    if (ref.current) {
+      ref.current.focus()
+    }
+  }
 
   const handleNumberClick = (num: string): void => {
     setResult((prev) => {
@@ -23,6 +30,7 @@ export const App = () => {
       }
       return prev + num
     })
+    setFocus()
   }
 
   const handleSignClick = (sign: string): void => {
@@ -37,6 +45,7 @@ export const App = () => {
       }
       return `${prev}${sign}`
     })
+    setFocus()
   }
 
   const handleResultClick = () => {
@@ -44,12 +53,14 @@ export const App = () => {
     setResult(res.toString())
     setExpression(result)
     setCalculationDone(true)
+    setFocus()
   }
 
   const handleClearClick = () => {
     setResult('0')
     setExpression('')
     setCalculationDone(false)
+    setFocus()
   }
 
   return (
@@ -61,6 +72,7 @@ export const App = () => {
         handleResultClick={handleResultClick}
         handleSignClick={handleSignClick}
         handleClearClick={handleClearClick}
+        inputRef={ref}
       />
       <Buttons
         handleNumberClick={handleNumberClick}

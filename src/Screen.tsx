@@ -5,7 +5,8 @@ interface ScreenProps {
     handleNumberClick: (num: string) => void
     handleResultClick: () => void,
     handleSignClick: (sign: string) => void,
-    handleClearClick: () => void
+    handleClearClick: () => void,
+    inputRef: React.RefObject<HTMLInputElement>
 }
 
 export const Screen: React.FC<ScreenProps> = ({
@@ -14,18 +15,18 @@ export const Screen: React.FC<ScreenProps> = ({
   handleNumberClick,
   handleResultClick,
   handleSignClick,
-  handleClearClick
+  handleClearClick,
+  inputRef
 }) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const valueCode = e.target.value[e.target.value.length - 1]
     if ((Number(valueCode) >= 0 && Number(valueCode) <= 9)){
       handleNumberClick(valueCode)
-    }
-      
-    else if (valueCode === '+' ||
-            valueCode === '-' || valueCode === '/' || valueCode === '%' || valueCode === '*'
-            || valueCode === ',' || valueCode === '(' || valueCode === ')') {
+    } else if (valueCode === '+' || valueCode === '-' ||
+      valueCode === '/' || valueCode === '%' ||
+      valueCode === '*' || valueCode === ',' ||
+      valueCode === '(' || valueCode === ')') {
         handleSignClick(valueCode)
     }
   }
@@ -45,6 +46,7 @@ export const Screen: React.FC<ScreenProps> = ({
       id="result"
       value={result}
       autoFocus
+      ref={inputRef} 
       onChange={(e) => handleChange(e)}
       onKeyDown={(e) => handleKey(e)} />
   </div>)
